@@ -19,6 +19,8 @@ Process::Async::Manager - handle async background process
 
 =head1 DESCRIPTION
 
+Look in examples/ in the source distribution.
+
 =cut
 
 use curry;

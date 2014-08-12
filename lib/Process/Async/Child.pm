@@ -7,13 +7,19 @@ use parent qw(IO::Async::Process);
 
 =head1 NAME
 
-Process::Async::Child -
-
-=head1 SYNOPSIS
+Process::Async::Child - L<IO::Async::Process> subclass for handling communication between parent and worker
 
 =head1 DESCRIPTION
 
+See L<Process::Async>.
+
 =head1 METHODS
+
+=cut
+
+=head2 send_command
+
+Helper for sending a command.
 
 =cut
 
@@ -52,8 +58,6 @@ sub on_exception {
 1;
 
 __END__
-
-=head1 SEE ALSO
 
 =head1 AUTHOR
 

@@ -11,7 +11,23 @@ Process::Async - nested loop-using process support
 
 =head1 SYNOPSIS
 
+ use Process::Async;
+ use IO::Async::Loop;
+ 
+ my $loop = IO::Async::Loop->new;
+ $loop->add(
+ 	my $pm = Process::Async::Manager->new(
+ 		worker => 'Demo::Worker',
+ 		child  => 'Demo::Child',
+ 	)
+ );
+ my $child = $pm->spawn;
+ $child->finished->get;
+
 =head1 DESCRIPTION
+
+Provides a thin wrapper around L<IO::Async::Process>. See the examples
+directory.
 
 =head1 METHODS
 
