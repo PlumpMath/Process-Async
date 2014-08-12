@@ -75,7 +75,7 @@ sub spawn {
 			);
 			$worker->run($loop);
 		}
-	));
+	);
 	$self->add_child($child);
 }
 

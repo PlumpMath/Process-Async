@@ -55,8 +55,8 @@ sub on_stdio_read {
 		my ($k, $data) = split ' ', $1, 2;
 		if(my $method = $self->can('cmd_' . $k)) {
 			$method->($self, $data);
-		} elsif(my $method = $self->can('on_command')) {
-			$method->($self, $k, $data);
+		} elsif(my $on_command = $self->can('on_command')) {
+			$on_command->($self, $k, $data);
 		} else {
 			$self->debug_printf("No handler for [%s]", $k);
 		}
