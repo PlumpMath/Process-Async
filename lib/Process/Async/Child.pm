@@ -17,10 +17,16 @@ Process::Async::Child -
 
 =cut
 
+sub send_command {
+	my ($self, $cmd, @data) = @_;
+	$self->stdio->write(join(" ", $cmd, @data) . "\n")
+}
+
 sub on_read {
 	my ($self, $stream, $buffref, $eof) = @_;
 	while($$buffref =~ s/^(.*)\n//) {
 		my ($k, $data) = split ' ', $1, 2;
+		$self->debug_printf("Dealing with [%s] command", $k);
 		if(my $method = $self->can('cmd_' . $k)) {
 			$method->($self, $data);
 		} else {
