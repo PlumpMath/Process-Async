@@ -69,23 +69,31 @@ sub spawn {
 	my $child_class = $self->child_class || 'Process::Async::Child';
 
 	my $child = $child_class->new;
+	$self->debug_printf("Starting %s worker via %s child with %s loop", $worker_class, $child_class, $loop_class);
 
 	# Provide the code and a basic STDIO handler
 	$child->configure(
 		stdio => {
 			via => 'pipe_rdwr',
-			on_read => $child->curry::weak::on_read,
+			on_read => $child->curry::on_read,
 		},
 		code => sub {
 			# (from here, we're in the fork)
-			my $loop = $loop_class->new;
-			$loop->add(
-				my $worker = $worker_class->new
-			);
-			$worker->run($loop);
+			eval {
+				my $loop = $loop_class->new;
+				$self->debug_printf("Loop %s initialised", $loop);
+				$loop->add(
+					my $worker = $worker_class->new
+				);
+				$self->debug_printf("Running worker %s", $worker);
+				$worker->run($loop);
+				$self->debug_printf("Worker %s ->run completed", $worker);
+				1
+			} or confess $@;
 		}
 	);
 	$self->add_child($child);
+	$child
 }
 
 1;

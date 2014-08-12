@@ -74,11 +74,11 @@ Sets up an L<IO::Async::Stream> for STDIO when we're added to the event loop.
 sub _add_to_loop {
 	my ($self, $loop) = @_;
 	$self->add_child(
-		$self->{stdio} = my $stdio = IO::Async::Stream->new_for_stdio
+		$self->{stdio} = my $stdio = IO::Async::Stream->new_for_stdio(
+			on_read => $self->curry::weak::on_stdio_read,
+		)
 	);
-	$stdio->configure(
-		on_read => $self->curry::weak::on_stdio_read,
-	);
+	$self->debug_printf("Worker has been added to the event loop");
 }
 
 1;
