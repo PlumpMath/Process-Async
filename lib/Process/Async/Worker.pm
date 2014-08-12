@@ -13,6 +13,10 @@ Process::Async::Worker - base class for IO::Async::Loop-using subprocess
 
 Provides the base class for a worker implementation.
 
+=cut
+
+use curry;
+
 =head1 METHODS
 
 =cut
@@ -23,7 +27,7 @@ Subclasses must provide this method.
 
  sub run {
   my ($self, $loop) = @_;
-  $self->stdio->write('started');
+  $self->send_command('started');
   $loop->add(my $ua = Net::Async::HTTP->new);
   $ua->GET('http://example.com')->get;
  }
@@ -37,6 +41,11 @@ Accessor for the STDIO L<IO::Async::Stream>.
 =cut
 
 sub stdio { shift->{stdio} }
+
+sub send_command {
+	my ($self, $cmd, @data) = @_;
+	$self->stdio->write(join(" ", $cmd, @data) . "\n")
+}
 
 =head2 on_stdio_read
 

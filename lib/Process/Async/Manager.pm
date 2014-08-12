@@ -79,17 +79,15 @@ sub spawn {
 		},
 		code => sub {
 			# (from here, we're in the fork)
-			eval {
-				my $loop = $loop_class->new;
-				$self->debug_printf("Loop %s initialised", $loop);
-				$loop->add(
-					my $worker = $worker_class->new
-				);
-				$self->debug_printf("Running worker %s", $worker);
-				$worker->run($loop);
-				$self->debug_printf("Worker %s ->run completed", $worker);
-				1
-			} or confess $@;
+			my $loop = $loop_class->new;
+			$self->debug_printf("Loop %s initialised", $loop);
+			$loop->add(
+				my $worker = $worker_class->new
+			);
+			$self->debug_printf("Running worker %s", $worker);
+			my $exit = $worker->run($loop);
+			$self->debug_printf("Worker %s ->run completed with %d", $worker, $exit);
+			return $exit;
 		}
 	);
 	$self->add_child($child);

@@ -47,6 +47,9 @@ use feature qw(say);
 			$self->completion
 		})->get;
 		$self->debug_printf("Worker finished");
+
+		# our exitcode
+		return 0;
 	}
 }
 
