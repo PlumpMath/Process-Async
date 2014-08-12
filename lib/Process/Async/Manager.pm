@@ -45,6 +45,9 @@ sub configure {
 	$self->SUPER::configure(%args);
 }
 
+sub worker_class { shift->{worker_class} }
+sub child_class { shift->{child_class} }
+
 =head2 spawn
 
 Spawn a child. Returns a L<Process::Async::Child> instance.
