@@ -59,8 +59,8 @@ use IO::Async::Loop;
 my $loop = IO::Async::Loop->new;
 $loop->add(
 	my $pm = Process::Async::Manager->new(
-		worker_class => 'Demo::Worker',
-		child_class  => 'Demo::Child',
+		worker => 'Demo::Worker',
+		child  => 'Demo::Child',
 	)
 );
 my $child = $pm->spawn;
