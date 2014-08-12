@@ -35,12 +35,18 @@ sub on_read {
 			);
 		}
 	}
-	warn "Closed input" if $eof;
+	$self->debug_printf("Input EOF") if $eof;
 	return 0
 }
 
 sub on_finish {
-	warn "finished?";
+	my ($self, $exitcode) = @_;
+	$self->debug_printf("Finished - exit code %d", $exitcode);
+}
+
+sub on_exception {
+	my ($self, $exception, $errno, $exitcode) = @_;
+	$self->debug_printf("Had exception [%s] errno %s exitcode %d", $exception, $errno, $exitcode);
 }
 
 1;
