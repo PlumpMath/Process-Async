@@ -19,6 +19,11 @@ Process::Async::Manager - handle async background process
 
 =head1 DESCRIPTION
 
+=cut
+
+use curry;
+use Carp qw(confess);
+
 =head1 METHODS
 
 =cut
