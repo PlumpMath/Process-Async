@@ -61,6 +61,7 @@ Spawn a child. Returns a L<Process::Async::Child> instance.
 
 sub spawn {
 	my ($self) = @_;
+	die "Need to be added to an IO::Async::Loop or IO::Async::Notifier first" unless $self->loop;
 
 	# Use the same loop subclass in the child process as we're using
 	my $loop_class = ref($self->loop);
